@@ -17,15 +17,15 @@ public class PostViewModel extends ViewModel {
 
     public MutableLiveData<List<PostModel>> postsList = new MutableLiveData<>();
     public MutableLiveData<Boolean> errorLiveData = new MutableLiveData(false);
-
-    CompositeDisposable compositeDisposable=new CompositeDisposable();
-
-    IRepo repo;
+    private CompositeDisposable compositeDisposable=new CompositeDisposable();
+    private IRepo repo;
 
     public PostViewModel(IRepo repo) {
         this.repo = repo;
     }
 
+
+    // fetch data from api
     public void fetchPosts(int start){
         repo.fetchPosts(String.valueOf(start)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new io.reactivex.Observer<List<PostModel>>() {
@@ -47,6 +47,7 @@ public class PostViewModel extends ViewModel {
     }
 
 
+    // cache data in room
     private void cachePosts(List<PostModel> postModels){
 
         repo.cachePosts(postModels).subscribeOn(Schedulers.io()).subscribe(new CompletableObserver() {
@@ -61,14 +62,13 @@ public class PostViewModel extends ViewModel {
             @Override
             public void onError(@NotNull Throwable e) { }
         });
-
     }
 
 
+    // get data from room
     public void  getPosts(){
         repo.getPosts().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new io.reactivex.Observer<List<PostModel>>() {
-
                     @Override
                     public void onSubscribe(@NotNull Disposable d) {
                         compositeDisposable.add(d);

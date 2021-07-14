@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
             binding.progressBar.setVisibility(View.GONE);
         });
 
+
+        // observer on erroelivedata
         postViewModel.errorLiveData.observe(this, error->{
             if(error){
                 Snackbar.make(findViewById(android.R.id.content), "connection faild", Snackbar.LENGTH_INDEFINITE)
@@ -79,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 new PostsViewModelFactory(new Repo(RoomDatabase.getInstance(MyApplication.getContext()), NetworkManager.getInstance(), SharedPref.getInstance()))).get(PostViewModel.class);
     }
 
+    // initialize recycleview and make it support pagination
     private void initRecycleView(){
 
         postAdapter = new PostAdapter();

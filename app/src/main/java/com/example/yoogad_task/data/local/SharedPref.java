@@ -13,9 +13,7 @@ public class SharedPref {
     private final SharedPreferences shared;
 
     private SharedPref(){
-
         shared =  MyApplication.getContext().getSharedPreferences("posts", Context.MODE_MULTI_PROCESS);
-
     }
 
     public static SharedPref getInstance(){
@@ -30,12 +28,10 @@ public class SharedPref {
     }
 
     public void putStart(int start){
-
         shared.edit().putInt(START ,start).commit();
     }
 
     public int getStart(){
-
         return shared.getInt(START, 0);
     }
 }
